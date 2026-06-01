@@ -7,24 +7,22 @@ from tests.helpers.checkers import (
     check_required_fields_error,
     check_user_already_exists,
 )
-from tests.helpers.data import default_user_payload, user_payload_without_field
-from tests.helpers.user import delete_registered_user
+from tests.helpers.data import user_payload_without_field
 
 
 @allure.feature('Регистрация пользователя')
 class TestRegisterUser:
     @allure.title('Создание уникального пользователя')
-    def test_register_unique_user_success(self, api: StellarBurgersApi):
+    def test_register_unique_user_success(self, new_user_registration):
         """Проверка успешной регистрации нового уникального пользователя"""
-        payload = default_user_payload()
-        response = api.register_user(**payload)
-        access_token = check_register_success(response, payload)
-        delete_registered_user(api, access_token)
+        payload = new_user_registration['payload']
+        response = new_user_registration['response']
+        check_register_success(response, payload)
 
     @allure.title('Создание уже зарегистрированного пользователя')
     def test_register_existing_user_forbidden(self, api: StellarBurgersApi, registered_user):
         """Проверка ошибки при повторной регистрации существующего пользователя"""
-        response = api.register_user(
+        response = api.register_user_with_required_fields(
             email=registered_user['email'],
             password=registered_user['password'],
             name=registered_user['name'],
@@ -38,5 +36,5 @@ class TestRegisterUser:
     ):
         """Проверка ошибки, если не передано одно обязательное поле"""
         payload = user_payload_without_field(missing_field)
-        response = api.register_user_payload(payload)
+        response = api.register_user(payload)
         check_required_fields_error(response)

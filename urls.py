@@ -1,0 +1,7 @@
+API_PREFIX = "/api"
+
+REGISTER_ENDPOINT = f"{API_PREFIX}/auth/register"
+LOGIN_ENDPOINT = f"{API_PREFIX}/auth/login"
+USER_ENDPOINT = f"{API_PREFIX}/auth/user"
+ORDERS_ENDPOINT = f"{API_PREFIX}/orders"
+INGREDIENTS_ENDPOINT = f"{API_PREFIX}/ingredients"

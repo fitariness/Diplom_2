@@ -4,7 +4,7 @@ from tests.helpers.data import default_user_payload
 
 def create_registered_user(api: StellarBurgersApi) -> dict:
     payload = default_user_payload()
-    response = api.register_user(**payload)
+    response = api.register_user(payload)
     body = response.json()
     return {
         'email': payload['email'],

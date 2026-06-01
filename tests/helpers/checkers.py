@@ -11,7 +11,7 @@ def check_status_code(response: requests.Response, expected_code: int) -> None:
 
 
 @allure.step('Проверить успешную регистрацию пользователя')
-def check_register_success(response: requests.Response, payload: dict) -> str:
+def check_register_success(response: requests.Response, payload: dict) -> None:
     """Проверка тела ответа при успешной регистрации"""
     check_status_code(response, 200)
     body = response.json()
@@ -20,7 +20,6 @@ def check_register_success(response: requests.Response, payload: dict) -> str:
     assert body['user']['name'] == payload['name']
     assert body['accessToken'].startswith('Bearer ')
     assert body['refreshToken']
-    return body['accessToken']
 
 
 @allure.step('Проверить ошибку: пользователь уже существует')
